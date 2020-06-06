@@ -10,11 +10,16 @@ class User extends Authenticatable
     use Notifiable;
 
     protected $fillable = [
-        'username', 'email', 'password', "api_token"
+        'username',
+        'email',
+        'password',
+        'api_token',
+        'classroom_id'
     ];
 
     protected $hidden = [
-        'password', 'api_token',
+        'password',
+        'api_token',
     ];
 
     protected $casts = [

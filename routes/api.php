@@ -26,7 +26,9 @@ Route::prefix('v1')
             Route::get('explore', 'ImageController@explore');
 
             Route::prefix('classrooms')->group(function () {
-                Route::resource(null, 'ClassroomController')->only(['store', 'index']);
+//                Route::resource(null, 'ClassroomController')->only(['store', 'show']);
+                Route::post(null, 'ClassroomController@store');
+                Route::get('{classroom}', 'ClassroomController@show');
                 Route::post('{classroom}/join', 'ClassroomController@join');
             });
 
