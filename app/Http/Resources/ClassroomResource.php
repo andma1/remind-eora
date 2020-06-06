@@ -18,8 +18,8 @@ class ClassroomResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'participants' => $this->participants,
-            'images' => []
+            'participants' => $this->participants()->withCount('images')->get(),
+            'images' => $this->images
         ];
     }
 }

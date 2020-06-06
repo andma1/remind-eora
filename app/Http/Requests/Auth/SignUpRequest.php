@@ -10,6 +10,8 @@ use Illuminate\Support\Str;
 
 class SignUpRequest extends Request
 {
+    private $user;
+
     public function authorize(): bool
     {
         return true;
@@ -24,11 +26,18 @@ class SignUpRequest extends Request
         ];
     }
 
-    public function signUp(): User
+    public function signUp(): self
     {
-        return User::create(array_merge($this->only('username', 'email'), [
+        $this->user = User::create(array_merge($this->only('username', 'email'), [
             'api_token' => Str::random(60),
             'password' => bcrypt($this->get('password'))
         ]));
+
+        return $this;
+    }
+
+    public function getCreatedUser(): User
+    {
+        return $this->user;
     }
 }
