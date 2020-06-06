@@ -14,7 +14,7 @@ class ClassroomController extends Controller
 {
     public function store(StoreRequest $request): array
     {
-        return array_merge($request->handle()->only('name'), [
+        return array_merge($request->handle()->only('id', 'name'), [
             'participants' => [],
             'images' => []
         ]);
