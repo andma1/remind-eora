@@ -15,9 +15,14 @@ class Image extends Model
         'name',
     ];
 
+    public function dir(): string
+    {
+        return $this->getOwner()->imagesDir();
+    }
+
     public function path(): string
     {
-        return public_path($this->getOwner()->dir() . '/' . $this->name);
+        return public_path($this->dir() . DIRECTORY_SEPARATOR . $this->name);
     }
 
     public function scopeOfClassroom(Builder $builder): Builder
@@ -26,18 +31,20 @@ class Image extends Model
     }
 
     /**
-     * @param int $docId
+     * @param ImageOwnerContract $owner
      * @param string $base64
      * @param string $name
      * @return static
      */
-    public static function store(int $docId, string $base64, string $name): self
+    public static function store(ImageOwnerContract $owner, string $base64, string $name): self
     {
         $file = new static([
-            'doc_id' => $docId
+            'owner_type' => get_class($owner),
+            'owner_id' => $owner->id,
+            'name' => $name
         ]);
 
-        abort_if(!$file->upload($base64, $name), 200, "Failed to upload file");
+        abort_if(!$file->upload($base64), 400, "Failed to upload file");
 
         $file->save();
 
@@ -45,45 +52,32 @@ class Image extends Model
     }
 
     /**
-     * @param $base64
-     * @param string $name
+     * @param string $base64
+     * @param string $path
      * @return bool
      */
-    public function upload(string $base64, string $name)
+    public function upload(string $base64): bool
     {
-//        $explode = explode(',', $base64);
-//        $mimeType = str_replace(
-//            [
-//                'data:',
-//                ';',
-//                'base64',
-//            ],
-//            [
-//                '', '', '',
-//            ],
-//            $explode[0]
-//        );
-//
-//        $extension = Helper::guessExtension($mimeType);
-//
-//        if (null === $extension) {
-//            return false;
-//        }
-//
-//        $attachment = base64_decode($explode[1]);
-//        $attachmentName = $name . '_' . uniqid() . '.' . $extension;
-//
-//        if (!is_dir(self::fullDirectory())) {
-//            mkdir(self::fullDirectory());
-//        }
-//
-//        $attachmentResult = (bool) file_put_contents(self::fullDirectory() . DIRECTORY_SEPARATOR . $attachmentName, $attachment);
-//
-//        if ($attachmentResult) {
-//            $this->name = $attachmentName;
-//        }
-//
-//        return $attachmentResult;
+        $this->createDir(
+            $this->dir()
+        );
+
+        return (bool) file_put_contents($this->path(), base64_decode($base64));
+    }
+
+    public function createDir(string $dir): void
+    {
+        if (!is_dir($dir)) {
+            $currentDir = null;
+
+            foreach (explode(DIRECTORY_SEPARATOR, $dir) as $subDir) {
+                $currentDir = $currentDir ? $currentDir . DIRECTORY_SEPARATOR . $subDir : $subDir;
+
+                if (!is_dir($currentDir)) {
+                    mkdir($currentDir);
+                }
+            }
+        }
     }
 
     public function owner(): MorphTo

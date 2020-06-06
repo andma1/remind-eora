@@ -20,8 +20,8 @@ class Classroom extends Model implements ImageOwnerContract
         return $this->hasMany(User::class);
     }
 
-    public function dir(): string
+    public function imagesDir(): string
     {
-        return self::BASE_DIR . '/' . $this->dir;
+        return self::BASE_DIR . DIRECTORY_SEPARATOR . $this->dir;
     }
 }

@@ -6,5 +6,5 @@ namespace App\Contracts;
 
 interface ImageOwnerContract
 {
-    public function dir();
+    public function imagesDir(): string;
 }
