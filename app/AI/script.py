@@ -1,3 +1,4 @@
+
 import os
 import cv2
 import time
@@ -36,6 +37,9 @@ def auth():
 
 
 def push_task(image_path, token):
+    print('image_path :', image_path)
+    print('token :', token)
+    
     res = requests.post('https://www.visionhub.ru/api/v2/process/img2img/', 
                         headers={'Authorization': f'Bearer {token}'},
                         files={'image': open(image_path, 'rb')},
@@ -86,11 +90,23 @@ def overlay_transparent(background, overlay, x, y):
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-d', help='input directory')
+parser.add_argument('-r', help='save directory')
 args = parser.parse_args()
 
-folder_path = args.d
-if folder_path is None:
-	raise Exception('Folder path not given !')
+input_path = '/home/centos/remind-eora/public/files'
+save_path = '/home/centos/remind-eora/public/results'
+
+input_dir_name = args.d
+save_name = args.r
+
+folder_path = os.path.join(input_path, input_dir_name)
+
+if not os.path.exists(os.path.join(save_path, input_dir_name)):
+    os.makedirs(os.path.join(save_path, input_dir_name))
+save_path = os.path.join(save_path, input_dir_name, save_name)
+
+if folder_path is None or save_path is None:
+    raise Exception('Folder path or Save path not given !')
 
 
 ################################################
@@ -193,7 +209,7 @@ for png in pngs:
     current_y += space
 
 background = cv2.resize(background, original_size)
-cv2.imwrite('result.jpg', background)
+cv2.imwrite(save_path, background)
 
 finish = time.time()
 print('Execution finished :', finish-start, 'sec')
