@@ -22,7 +22,7 @@ class ClassroomController extends Controller
 
     public function show(Request $request, Classroom $classroom): JsonResource
     {
-        return new ClassroomResource($request);
+        return new ClassroomResource($classroom);
     }
 
     public function join(JoinRequest $request, Classroom $classroom): JsonResource
