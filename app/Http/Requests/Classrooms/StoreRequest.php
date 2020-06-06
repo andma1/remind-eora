@@ -23,6 +23,8 @@ class StoreRequest extends Request
 
     public function handle(): Classroom
     {
-        return Classroom::create($this->validated());
+        return Classroom::create(array_merge($this->validated(), [
+            'dir' => $this->get('name') . '-' . microtime()
+        ]));
     }
 }

@@ -20,10 +20,10 @@ Route::prefix('v1')
         Route::post('signUp', 'AuthController@signUp');
         Route::post('signIn', 'AuthController@signIn');
 
+        Route::get('explore', 'ImageController@explore');
+
         Route::middleware('auth:api')->group(function () {
             Route::post('signOut', 'AuthController@signOut');
-
-            Route::get('explore', 'ImageController@explore');
 
             Route::prefix('classrooms')->group(function () {
 //                Route::resource(null, 'ClassroomController')->only(['store', 'show']);

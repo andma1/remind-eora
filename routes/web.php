@@ -18,4 +18,4 @@ Route::get('/', function () {
 });
 
 // @TODO optimise: ApiController should not be in web.php
-//Route::prefix('Api')->get('images/{image}', 'ImageController@show');
+Route::get('images/{image}', 'Api\ImageController@show');

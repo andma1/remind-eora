@@ -4,10 +4,10 @@
 namespace App\Http\Requests\Classrooms;
 
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\Request;
 use Illuminate\Support\Facades\Auth;
 
-class JoinRequest extends FormRequest
+class JoinRequest extends Request
 {
     public function authorize(): bool
     {

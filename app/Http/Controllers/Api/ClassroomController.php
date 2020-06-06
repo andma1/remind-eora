@@ -8,16 +8,12 @@ use App\Http\Requests\Request;
 use App\Http\Resources\ClassroomResource;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Classrooms\StoreRequest;
-use Illuminate\Http\Resources\Json\JsonResource;
 
 class ClassroomController extends Controller
 {
     public function store(StoreRequest $request): array
     {
-        return array_merge($request->handle()->only('id', 'name'), [
-            'participants' => [],
-            'images' => []
-        ]);
+        return (new ClassroomResource($request->handle()))->toArray($request);
     }
 
     public function show(Request $request, Classroom $classroom): array

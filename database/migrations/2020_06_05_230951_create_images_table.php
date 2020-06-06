@@ -15,6 +15,13 @@ class CreateImagesTable extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
+
+            $table->string('name');
+            $table->string('owner_type');
+            $table->string('owner_id');
+
+            $table->index(['owner_id', 'owner_type']);
+
             $table->timestamps();
         });
     }

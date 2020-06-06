@@ -17,6 +17,7 @@ class CreateClassroomsTable extends Migration
             $table->id();
 
             $table->string('name');
+            $table->string('dir')->unique();
 
             $table->timestamps();
         });
