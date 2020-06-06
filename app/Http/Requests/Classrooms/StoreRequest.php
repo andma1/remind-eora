@@ -6,6 +6,7 @@ namespace App\Http\Requests\Classrooms;
 
 use App\Classroom;
 use App\Http\Requests\Request;
+use Illuminate\Support\Facades\Auth;
 
 class StoreRequest extends Request
 {
@@ -23,8 +24,12 @@ class StoreRequest extends Request
 
     public function handle(): Classroom
     {
-        return Classroom::create(array_merge($this->validated(), [
+        $classroom = Classroom::create(array_merge($this->validated(), [
             'dir' => $this->get('name') . '-' . microtime()
         ]));
+
+        Auth::user()->update(['classroom_id' => $classroom->id]);
+
+        return $classroom;
     }
 }
