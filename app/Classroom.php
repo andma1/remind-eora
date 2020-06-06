@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Classroom extends Model implements ImageOwnerContract
 {
-    const BASE_DIR = 'files/results';
+    const DIR = 'results';
 
     protected $fillable = [
         'name',
@@ -23,11 +23,16 @@ class Classroom extends Model implements ImageOwnerContract
 
     public function imagesDir(): string
     {
-        return self::BASE_DIR . DIRECTORY_SEPARATOR . $this->dir;
+        return self::DIR . DIRECTORY_SEPARATOR . $this->dir;
     }
 
     public function images(): MorphMany
     {
         return $this->morphMany(Image::class, 'owner');
+    }
+
+    public static function generateUniqueString(string $name): string
+    {
+        return strtolower($name . '-' . str_replace(' ', '', microtime()));
     }
 }

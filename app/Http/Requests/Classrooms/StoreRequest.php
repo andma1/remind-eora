@@ -25,7 +25,7 @@ class StoreRequest extends Request
     public function handle(): Classroom
     {
         $classroom = Classroom::create(array_merge($this->validated(), [
-            'dir' => strtolower($this->get('name')) . '-' . str_replace(' ', '', microtime())
+            'dir' => Classroom::generateUniqueString($this->get('name'))
         ]));
 
         Auth::user()->update(['classroom_id' => $classroom->id]);

@@ -34,6 +34,6 @@ Route::prefix('v1')
 
             Route::post('users/{user}/images', 'UserController@storeImage'); // @TODO optimise image route logic
 
-            Route::post('generate', 'GenerateController');
+            Route::post('generate/{classroom}', 'GenerateController');
         });
     });
