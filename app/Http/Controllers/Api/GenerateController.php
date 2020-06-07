@@ -6,6 +6,7 @@ use App\Classroom;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Request;
 use App\Image;
+use Illuminate\Support\Facades\Log;
 
 class GenerateController extends Controller
 {
@@ -21,7 +22,9 @@ class GenerateController extends Controller
 
 //        file_put_contents(public_path('results' . DIRECTORY_SEPARATOR . $classroom->dir . DIRECTORY_SEPARATOR . $fileName), base64_decode($request->get('background')));
 
-        $result = shell_exec("python3 {$script} -d {$classroom->dir} -p {$fileName}");
+        $result = shell_exec("python3 {$script} -d {$classroom->dir} -r {$fileName}");
+
+        Log::alert($result);
 
         $image = new Image([
             'owner_type' => Classroom::class,
