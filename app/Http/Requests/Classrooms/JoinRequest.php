@@ -17,7 +17,7 @@ class JoinRequest extends Request
     public function rules(): array
     {
         return [
-            'name'  => 'required|min:2',
+            //
         ];
     }
 
