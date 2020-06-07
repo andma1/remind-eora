@@ -20,7 +20,7 @@ class GenerateController extends Controller
         $fileName = $classroom->generateUniqueString($classroom->name) . '-result.png';
         file_put_contents(public_path('files' . DIRECTORY_SEPARATOR . $classroom->dir . DIRECTORY_SEPARATOR . 'backgorund.png'), base64_decode($request->get('background')));
 
-//        file_put_contents(public_path('results' . DIRECTORY_SEPARATOR . $classroom->dir . DIRECTORY_SEPARATOR . $fileName), base64_decode($request->get('background')));
+        file_put_contents(public_path('results' . DIRECTORY_SEPARATOR . $classroom->dir . DIRECTORY_SEPARATOR . $fileName), base64_decode($request->get('background')));
 
         $result = shell_exec("python3 {$script} -d {$classroom->dir} -r {$fileName}");
 
@@ -36,6 +36,6 @@ class GenerateController extends Controller
 
         $image->save();
 
-        return response()->file($image->path());
+        return $image->only('id', 'name');
     }
 }
