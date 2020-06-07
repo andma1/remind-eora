@@ -17,6 +17,7 @@ class Image extends Model
 
     public function dir(): string
     {
+        dump($this->getOwner()->imagesDir());
         return $this->getOwner()->imagesDir();
     }
 
@@ -62,7 +63,7 @@ class Image extends Model
             $this->dir()
         );
 
-//        dump($this->path());
+        dump($this->path());
         return (bool) file_put_contents($this->path(), base64_decode($base64));
     }
 

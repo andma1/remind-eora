@@ -23,6 +23,7 @@ class Classroom extends Model implements ImageOwnerContract
 
     public function imagesDir(): string
     {
+        dump($this->id, $this->dir);
         return self::DIR . DIRECTORY_SEPARATOR . $this->dir;
     }
 
