@@ -18,6 +18,9 @@ class GenerateController extends Controller
 
         $script = app_path('AI/script.py');
         $fileName = $classroom->generateUniqueString($classroom->name) . '-result.png';
+
+        abort_if(!is_dir('files' . DIRECTORY_SEPARATOR . $classroom->dir), 400, 'Participant pictures should be uploaded before generating');
+
         file_put_contents(public_path('files' . DIRECTORY_SEPARATOR . $classroom->dir . DIRECTORY_SEPARATOR . 'backgorund.png'), base64_decode($request->get('background')));
 
 //        file_put_contents(public_path('results' . DIRECTORY_SEPARATOR . $classroom->dir . DIRECTORY_SEPARATOR . $fileName), base64_decode($request->get('background')));
